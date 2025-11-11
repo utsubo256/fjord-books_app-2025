@@ -1,0 +1,8 @@
+<% if @mentioning_reports.any? %>
+  <strong><%= t('.mentioning_reports') %></strong>
+  <ul>
+    <% @mentioning_reports.each do |mentioning_report| %>
+      <li><a href="<%= report_url(mentioning_report.id) %>"><%= mentioning_report.title %></a></li>
+    <% end %>
+  </ul>
+<% end %>
