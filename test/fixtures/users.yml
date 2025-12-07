@@ -3,3 +3,11 @@ alice:
   name: "Alice"
   encrypted_password: <%= Devise::Encryptor.digest(User, 'Password!') %>
 
+bob:
+  email: "bob@example.com"
+  name: "Bob"
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'Password!') %>
+
+charlie:
+  email: "charlie@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'Password!') %>
