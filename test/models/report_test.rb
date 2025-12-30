@@ -3,10 +3,16 @@
 require 'test_helper'
 
 class ReportTest < ActiveSupport::TestCase
-  test '#editable?' do
+  test '#editable? should be true when given the login user' do
     target_user = users(:alice)
     report = reports(:alice_report)
     assert report.editable?(target_user)
+  end
+
+  test '#editable? should be false for non-owner users' do
+    target_user = users(:bob)
+    report = reports(:alice_report)
+    assert_not report.editable?(target_user)
   end
 
   test '#created_on' do
