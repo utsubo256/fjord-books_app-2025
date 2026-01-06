@@ -1,7 +1,0 @@
-alice_to_bob:
-  mentioning: alice_report
-  mentioned: bob_report
-
-alice_to_charlie:
-  mentioning: alice_report
-  mentioned: charlie_report

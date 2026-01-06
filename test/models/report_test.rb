@@ -20,14 +20,26 @@ class ReportTest < ActiveSupport::TestCase
     assert_equal Date.new(2025, 12, 6), report.created_on
   end
 
-  test '#save_mentions' do
-    alice_report = reports(:alice_report)
-    reports(:bob_report)
-    charlie_report = reports(:charlie_report)
-    report_mentions(:alice_to_bob)
-    report_mentions(:alice_to_charlie)
+  test '#save_mentions removes mentions that are no longer in content' do
+    alice_report = Report.create!(title: 'テストタイトル', content: 'テスト内容', user: users(:alice))
+    alice_report.active_mentions.create!(mentioned: reports(:bob_report))
     assert_difference 'alice_report.mentioning_reports.count', -1 do
-      alice_report.update!(content: "http://localhost:3000/reports/#{charlie_report.id}")
+      alice_report.update!(content: 'test content')
+    end
+  end
+
+  test '#save_mentions keeps mentions that still exist in content' do
+    alice_report = Report.create!(title: 'テストタイトル', content: 'テスト内容', user: users(:alice))
+    alice_report.active_mentions.create!(mentioned: reports(:bob_report))
+    assert_difference 'alice_report.mentioning_reports.count', 0 do
+      alice_report.update!(content: "http://localhost:3000/reports/#{reports(:bob_report).id}")
+    end
+  end
+
+  test '#save_mentions adds new mentions from content' do
+    alice_report = Report.create!(title: 'テストタイトル', content: 'テスト内容', user: users(:alice))
+    assert_difference 'alice_report.mentioning_reports.count', 1 do
+      alice_report.update!(content: "http://localhost:3000/reports/#{reports(:bob_report).id}")
     end
   end
 end
