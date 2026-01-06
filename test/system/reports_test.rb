@@ -40,8 +40,10 @@ class ReportsTest < ApplicationSystemTestCase
     report = reports(:alice_report)
     visit report_url(report)
     assert_selector 'h1', text: '日報の詳細'
+    assert_text 'Railsの勉強'
     click_on 'この日報を削除'
     assert_text '日報が削除されました。'
     assert_selector 'h1', text: '日報の一覧'
+    assert_no_text 'Railsの勉強'
   end
 end
